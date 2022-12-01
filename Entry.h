@@ -1,9 +1,8 @@
-#include "Login.h";
+#include "Login.h"
 
 #pragma once
 
 namespace Mastermind {
-
   using namespace System;
   using namespace System::ComponentModel;
   using namespace System::Collections;
@@ -11,126 +10,18 @@ namespace Mastermind {
   using namespace System::Data;
   using namespace System::Drawing;
 
-  /// <summary>
-  /// Summary for Entry
-  /// </summary>
-  public ref class Entry : public System::Windows::Forms::Form
-  {
+  public ref class Entry : public System::Windows::Forms::Form {
   public:
-    Entry(void)
-    {
-      InitializeComponent();
-      //
-      //TODO: Add the constructor code here
-      //
-    }
-
+    Entry();
   protected:
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    ~Entry()
-    {
-      if (components)
-      {
-        delete components;
-      }
-    }
-  private: System::Windows::Forms::Button^ button1;
-  protected:
-  private: System::Windows::Forms::Button^ button2;
-  private: System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
-  
-         
-
-
-
-
-
-
-
-
-  protected:
-
+    ~Entry();
   private:
-    /// <summary>
-    /// Required designer variable.
-    /// </summary>
+    Int32^ window_width,window_height;
+    System::Windows::Forms::Button^ button1;
+    System::Windows::Forms::Button^ button2;
+    System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
     System::ComponentModel::Container^ components;
-
-#pragma region Windows Form Designer generated code
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
-    /// </summary>
-    void InitializeComponent(void)
-    {
-      this->button1 = (gcnew System::Windows::Forms::Button());
-      this->button2 = (gcnew System::Windows::Forms::Button());
-      this->flowLayoutPanel1 = (gcnew System::Windows::Forms::FlowLayoutPanel());
-      this->flowLayoutPanel1->SuspendLayout();
-      this->SuspendLayout();
-      // 
-      // button1
-      // 
-      this->button1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-        | System::Windows::Forms::AnchorStyles::Right));
-      this->button1->BackColor = System::Drawing::SystemColors::Control;
-      this->button1->ImeMode = System::Windows::Forms::ImeMode::NoControl;
-      this->button1->Location = System::Drawing::Point(0, 0);
-      this->button1->Margin = System::Windows::Forms::Padding(0, 0, 0, 16);
-      this->button1->Name = L"button1";
-      this->button1->Size = System::Drawing::Size(200, 67);
-      this->button1->TabIndex = 0;
-      this->button1->Text = L"Login";
-      this->button1->UseMnemonic = false;
-      this->button1->UseVisualStyleBackColor = true;
-      this->button1->Click += gcnew System::EventHandler(this, &Entry::button1_Click);
-      // 
-      // button2
-      // 
-      this->button2->Location = System::Drawing::Point(0, 83);
-      this->button2->Margin = System::Windows::Forms::Padding(0);
-      this->button2->Name = L"button2";
-      this->button2->Size = System::Drawing::Size(200, 67);
-      this->button2->TabIndex = 1;
-      this->button2->Text = L"Register";
-      this->button2->UseVisualStyleBackColor = true;
-      // 
-      // flowLayoutPanel1
-      // 
-      this->flowLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-        | System::Windows::Forms::AnchorStyles::Right));
-      this->flowLayoutPanel1->Controls->Add(this->button1);
-      this->flowLayoutPanel1->Controls->Add(this->button2);
-      this->flowLayoutPanel1->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
-      this->flowLayoutPanel1->Font = (gcnew System::Drawing::Font(L"Lato", 15.75F));
-      this->flowLayoutPanel1->ForeColor = System::Drawing::SystemColors::ControlText;
-      this->flowLayoutPanel1->Location = System::Drawing::Point(300, 225);
-      this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
-      this->flowLayoutPanel1->Size = System::Drawing::Size(200, 150);
-      this->flowLayoutPanel1->TabIndex = 2;
-      // 
-      // Entry
-      // 
-      this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
-      this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-      this->ClientSize = System::Drawing::Size(780, 557);
-      this->Controls->Add(this->flowLayoutPanel1);
-      this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
-      this->MaximizeBox = false;
-      this->Name = L"Entry";
-      this->Text = L"Entry";
-      this->flowLayoutPanel1->ResumeLayout(false);
-      this->ResumeLayout(false);
-
-    }
-#pragma endregion
-  private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-    if (!Login::open) {
-      Login^ login = gcnew Login;
-      login->Show();
-    }
-  }
+    System::Void InitializeComponent();
+    System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
   };
 }
