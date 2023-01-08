@@ -1,4 +1,5 @@
 #include "Login.h"
+#include "Register.h"
 
 #pragma once
 
@@ -16,12 +17,12 @@ namespace Mastermind {
   protected:
     ~Entry();
   private:
-    Int32^ window_width,window_height;
     System::Windows::Forms::Button^ button1;
     System::Windows::Forms::Button^ button2;
     System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
     System::ComponentModel::Container^ components;
     System::Void InitializeComponent();
     System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
+    System::Void button2_Click(System::Object^ sender, System::EventArgs^ e);
   };
 }
