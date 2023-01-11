@@ -1,14 +1,13 @@
 #include "Register.h"
 
 Mastermind::Register::Register() {
-    InitializeComponent();
-    this->ShowDialog();
+  InitializeComponent();
 }
 
 Mastermind::Register::~Register() {
-    if (components) {
-        delete components;
-    }
+  if (components) {
+    delete components;
+  }
 }
 
 void Mastermind::Register::InitializeComponent(void) {
@@ -18,8 +17,7 @@ void Mastermind::Register::InitializeComponent(void) {
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
     this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-    this->ClientSize = System::Drawing::Size(780, 557);
-    this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+    this->ClientSize = System::Drawing::Size(784, 561);
     this->MaximizeBox = false;
     this->Name = L"Register";
     this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;

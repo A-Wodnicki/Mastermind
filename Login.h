@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 namespace Mastermind {
   using namespace System;
@@ -14,7 +15,29 @@ namespace Mastermind {
   protected:
     ~Login();
   private:
-    System::ComponentModel::Container^ components;
-    void InitializeComponent();    
+    System::Windows::Forms::TextBox^ textBox1;
+    System::Windows::Forms::TextBox^ textBox2;
+    System::Windows::Forms::Label^ label1;
+    System::Windows::Forms::Label^ label2;
+    System::Windows::Forms::Button^ button1;
+    System::Windows::Forms::Button^ button2;
+    System::Windows::Forms::FlowLayoutPanel^ buttons;
+    System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel5;
+    System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+    System::Windows::Forms::TableLayoutPanel^ login_form;
+    System::Windows::Forms::Button^ login_button;
+    System::Windows::Forms::Button^ cancel_button;
+    System::Windows::Forms::Label^ username_label;
+    System::Windows::Forms::Label^ password_label;
+    System::Windows::Forms::TextBox^ username_input;
+    System::Windows::Forms::TextBox^ password_input;
+    System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
+  private: System::Data::DataSet^ dataSet1;
+
+  private: System::ComponentModel::IContainer^ components;
+         int q;
+    void InitializeComponent();
+    System::Void login_button_Click(System::Object^ sender, System::EventArgs^ e);
+
   };
 }
