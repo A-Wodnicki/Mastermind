@@ -2,9 +2,11 @@
 ref class Error
 {
 public:
-  Error();
+  Error(int, System::String^);
+  void Describe();
 protected:
   ~Error();
 private:
-  int l;
+  int number;
+  System::String^ description;
 };

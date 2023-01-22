@@ -1,6 +1,6 @@
 #include "Login.h"
 #include "Register.h"
-
+#include "Game.h"
 #pragma once
 
 namespace Mastermind {
@@ -19,6 +19,7 @@ namespace Mastermind {
   private:
     Mastermind::Register^ register_window = gcnew Mastermind::Register;
     Mastermind::Login^ login_window = gcnew Mastermind::Login;
+    Mastermind::Game^ game_window = gcnew Mastermind::Game;
     System::Windows::Forms::Button^ open_login_button;
     System::Windows::Forms::Button^ open_register_button;
     System::Windows::Forms::Button^ open_history_button;

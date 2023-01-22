@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 namespace Mastermind {
   using namespace System;
@@ -12,6 +11,7 @@ namespace Mastermind {
   public ref class Login : public System::Windows::Forms::Form {
   public:
     Login();
+    bool user_verified;
   protected:
     ~Login();
   private:
@@ -32,12 +32,10 @@ namespace Mastermind {
     System::Windows::Forms::TextBox^ username_input;
     System::Windows::Forms::TextBox^ password_input;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
-  private: System::Data::DataSet^ dataSet1;
-
-  private: System::ComponentModel::IContainer^ components;
-         int q;
+    System::Data::DataSet^ dataSet1;
+    System::ComponentModel::IContainer^ components;
     void InitializeComponent();
     System::Void login_button_Click(System::Object^ sender, System::EventArgs^ e);
-
+  
   };
 }

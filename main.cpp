@@ -12,10 +12,16 @@ Mastermind::Main::~Main() {
 
 System::Void Mastermind::Main::open_login_button_Click(System::Object^ sender, System::EventArgs^ e) {
   this->login_window->ShowDialog();
+  if (this->login_window->user_verified) {
+    this->game_window->ShowDialog();
+  }
 }
 
 System::Void Mastermind::Main::open_register_button_Click(System::Object^ sender, System::EventArgs^ e) {
   this->register_window->ShowDialog();
+  if (this->register_window->user_created) {
+    this->game_window->ShowDialog();
+  }
 }
 
 System::Void Mastermind::Main::InitializeComponent(void) {
@@ -112,8 +118,7 @@ System::Void Mastermind::Main::InitializeComponent(void) {
     this->main_menu_buttons->AutoSize = true;
     this->main_menu_buttons->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
     this->main_menu_buttons->ColumnCount = 1;
-    this->main_menu_buttons->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-        100)));
+    this->main_menu_buttons->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
     this->main_menu_buttons->Controls->Add(this->quit_button, 0, 4);
     this->main_menu_buttons->Controls->Add(this->open_register_button, 0, 1);
     this->main_menu_buttons->Controls->Add(this->open_settings_button, 0, 3);
@@ -121,15 +126,15 @@ System::Void Mastermind::Main::InitializeComponent(void) {
     this->main_menu_buttons->Controls->Add(this->open_login_button, 0, 0);
     this->main_menu_buttons->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel,
         static_cast<System::Byte>(238)));
-    this->main_menu_buttons->Location = System::Drawing::Point(293, 110);
+    this->main_menu_buttons->Location = System::Drawing::Point(301, 130);
     this->main_menu_buttons->Margin = System::Windows::Forms::Padding(0);
     this->main_menu_buttons->Name = L"main_menu_buttons";
     this->main_menu_buttons->RowCount = 5;
-    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
-    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
-    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
-    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
-    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
+    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+    this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
     this->main_menu_buttons->Size = System::Drawing::Size(197, 340);
     this->main_menu_buttons->TabIndex = 5;
     // 
@@ -144,7 +149,7 @@ System::Void Mastermind::Main::InitializeComponent(void) {
     this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
     this->tableLayoutPanel2->RowCount = 1;
     this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-    this->tableLayoutPanel2->Size = System::Drawing::Size(784, 561);
+    this->tableLayoutPanel2->Size = System::Drawing::Size(800, 600);
     this->tableLayoutPanel2->TabIndex = 6;
     // 
     // Main
@@ -153,10 +158,12 @@ System::Void Mastermind::Main::InitializeComponent(void) {
     this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
     this->ClientSize = System::Drawing::Size(784, 561);
     this->Controls->Add(this->tableLayoutPanel2);
+    this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
     this->MinimumSize = System::Drawing::Size(800, 600);
     this->Name = L"Main";
     this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-    this->Text = L"Main";
+    this->Text = L"Mastermind";
+    this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
     this->main_menu_buttons->ResumeLayout(false);
     this->main_menu_buttons->PerformLayout();
     this->tableLayoutPanel2->ResumeLayout(false);

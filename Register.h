@@ -11,10 +11,23 @@ namespace Mastermind {
   public ref class Register : public System::Windows::Forms::Form {
   public:
     Register();
+    bool user_created;
   protected:
     ~Register();
   private:
+    System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+  private:
+    System::Windows::Forms::TableLayoutPanel^ register_form;
+    System::Windows::Forms::Label^ username_label;
+    System::Windows::Forms::Label^ password_label;
+    System::Windows::Forms::Label^ confirm_password_label;
+    System::Windows::Forms::Button^ register_button;
+    System::Windows::Forms::Button^ cancel_button;
+    System::Windows::Forms::TextBox^ username_input;
+    System::Windows::Forms::TextBox^ password_input;
+    System::Windows::Forms::TextBox^ confirm_password_input;
     System::ComponentModel::Container^ components;
     void InitializeComponent();
+    System::Void register_button_Click(System::Object^ sender, System::EventArgs^ e);
   };
 }
