@@ -190,6 +190,7 @@ System::Void Mastermind::Login::login_button_Click(System::Object^ sender, Syste
       return;
   }
   user_verified = true;
+  username = username_input->Text;
   Close();
 }
 

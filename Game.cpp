@@ -10,55 +10,39 @@ Mastermind::Game::~Game() {
   }
 }
 
-
 System::Void Mastermind::Game::timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
   this->label1->Text = TimeSpan::FromSeconds(++time).ToString("mm\\:ss");
 }
 
-
 System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventArgs^ e) {
   this->time = 0;
   this->timer1->Start();
-  result = gcnew List<String^>{};
-  Random^ randomizer = gcnew Random();
-  String^ color;
-  for (int i = 0; i < 4; i++) {
-    switch (randomizer->Next(8))
-    {
-    case 0:
-      color = "red";
-      break;
-    case 1:
-      color = "green";
-      break;
-    case 2:
-      color = "blue";
-      break;
-    case 3:
-      color = "yellow";
-      break;
-    case 4:
-      color = "purple";
-      break;
-    case 5:
-      color = "lime";
-      break;
-    case 6:
-      color = "cyan";
-      break;
-    case 7:
-      color = "orange";
-      break;
-    default:
-      break;
-    }
-    result->Add(color);
+  game = gcnew MastermindGame();
+  row = column = 0;
+  info_row = info_column = 4;
+  buttons = gcnew cli::array<Button^, 2>{
+    { button_1_1, button_1_2, button_1_3, button_1_4, button_1_5, button_1_6, button_1_7, button_1_8 },
+    { button_2_1, button_2_2, button_2_3, button_2_4, button_2_5, button_2_6, button_2_7, button_2_8 },
+    { button_3_1, button_3_2, button_3_3, button_3_4, button_3_5, button_3_6, button_3_7, button_3_8 },
+    { button_4_1, button_4_2, button_4_3, button_4_4, button_4_5, button_4_6, button_4_7, button_4_8 },
+    { button_5_1, button_5_2, button_5_3, button_5_4, button_5_5, button_5_6, button_5_7, button_5_8 },
+    { button_6_1, button_6_2, button_6_3, button_6_4, button_6_5, button_6_6, button_6_7, button_6_8 },
+    { button_7_1, button_7_2, button_7_3, button_7_4, button_7_5, button_7_6, button_7_7, button_7_8 },
+    { button_8_1, button_8_2, button_8_3, button_8_4, button_8_5, button_8_6, button_8_7, button_8_8 },
+    { button_9_1, button_9_2, button_9_3, button_9_4, button_9_5, button_9_6, button_9_7, button_9_8 },
+    { button_10_1, button_10_2, button_10_3, button_10_4, button_10_5, button_10_6, button_10_7, button_10_8 },
+    { button_11_1, button_11_2, button_11_3, button_11_4, button_11_5, button_11_6, button_11_7, button_11_8 },
+    { button_12_1, button_12_2, button_12_3, button_12_4, button_12_5, button_12_6, button_12_7, button_12_8 }
+  };
+  Peg^ peg;
+  for each (Button ^ button in buttons) {
+    peg = gcnew Peg(button);
+    peg->setColor("Control");
+    delete peg;
   }
-  delete randomizer;
-  delete color;
-  for (int i = 0; i < 12; i++)  {
-
-  }
+  color_buttons = gcnew cli::array<Button^, 1>{
+    button_red, button_green, button_blue, button_yellow, button_purple, button_lime, button_cyan, button_orange
+  };
 }
 
 System::Void Mastermind::Game::button_quit_Click(System::Object^ sender, System::EventArgs^ e)
@@ -72,6 +56,123 @@ System::Void Mastermind::Game::Game_FormClosed(System::Object^ sender, System::W
   time = 0;
   this->label1->Text = TimeSpan::FromSeconds(0).ToString("mm\\:ss");
 }
+
+System::Collections::Generic::List<System::String^>^ operator+(System::Collections::Generic::List<System::String^>^ list, System::String^ string) {
+  list->Add(string);
+  return list;
+}
+
+bool operator==(System::Collections::Generic::List<System::String^>^ list1, System::Collections::Generic::List<System::String^>^ list2) {
+  for (int i = 0; i < list1->Count; i++) {
+    if (list1[i] != list2[i])
+      return false;
+  }
+  return true;
+}
+
+System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System::EventArgs^ e)
+{
+  Peg^ input_peg, ^ peg;
+  for each (Button ^ button in color_buttons)
+  {
+    if (button != sender) continue;
+
+    peg = gcnew Peg(buttons[row, column++]);
+    input_peg = gcnew Peg(button);
+    peg->setColor(input_peg->getColor());
+    game->attempt += input_peg->getColor();
+    delete peg;
+    delete input_peg;
+
+    if (column != 4) break;
+
+    if (row == 11) {
+      timer1->Stop();
+      MessageBox::Show("Pora¿ka", "Pora¿ka", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+      System::Data::SqlClient::SqlConnection^ conDatabase = gcnew System::Data::SqlClient::SqlConnection("Data Source=localhost\\SQLEXPRESS;Initial Catalog=mastermind;Integrated Security=SSPI");
+      conDatabase->Open();
+      String^ query = "UPDATE [stats] SET [failures] = [failures] + 1 FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE [users].[username] = '" + username + "'";
+      System::Data::SqlClient::SqlCommand^ cmd = gcnew System::Data::SqlClient::SqlCommand(query, conDatabase);
+      cmd->ExecuteNonQuery();
+      delete cmd;
+      conDatabase->Close();
+      delete conDatabase;
+      Close();
+      break;
+    }
+
+    column = 0;
+    for (int i = 0; i < game->attempt->Count; i++) {
+      if (game->attempt[i] == game->result[i]) {
+        game->black++;
+      }
+    }
+
+    System::Collections::Generic::SortedSet<String^>^ attempt_set;
+    attempt_set = gcnew System::Collections::Generic::SortedSet<String^>;
+    for (int i = 0; i < game->attempt->Count; i++) {
+      attempt_set->Add(game->attempt[i]);
+    }
+    int result_element_count = 0;
+    int attempt_element_count = 0;
+    for each (String ^ element in attempt_set) {
+      for (int j = 0; j < game->result->Count; j++) {
+        if (element == game->result[j])
+          result_element_count++;
+      }
+      for (int j = 0; j < game->attempt->Count; j++) {
+        if (element == game->attempt[j])
+          attempt_element_count++;
+      }
+      game->white +=
+        (result_element_count > attempt_element_count) ?
+        result_element_count - (result_element_count - attempt_element_count) :
+        result_element_count;
+      result_element_count = 0;
+      attempt_element_count = 0;
+    }
+    delete attempt_set;
+    game->white -= game->black;
+
+    while (game->black > 0) {
+      peg = gcnew Peg(buttons[row, info_column++]);
+      peg->setColor("Black");
+      delete peg;
+      game->black--;
+    }
+    while (game->white > 0) {
+      peg = gcnew Peg(buttons[row, info_column++]);
+      peg->setColor("White");
+      delete peg;
+      game->white--;
+    }
+
+    if (game->attempt == game->result) {
+      timer1->Stop();
+      MessageBox::Show("Wygra³eœ " + this->username + "!\nPróba numer : " + (row + 1) + "\nTwój czas to : " + label1->Text, "Zwyciêstwo", MessageBoxButtons::OK, MessageBoxIcon::Information);
+      System::Data::SqlClient::SqlConnection^ conDatabase = gcnew System::Data::SqlClient::SqlConnection("Data Source=localhost\\SQLEXPRESS;Initial Catalog=mastermind;Integrated Security=SSPI");
+      conDatabase->Open();
+      String^ query = "UPDATE [stats] SET [best time] = DATEADD(SECOND," + time + ", 0) FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE ([best time] IS NULL OR [best time] > CONVERT(TIME(0), DATEADD(ss, " + time + ", 0))) AND [users].[username] = '" + username + "'";
+      System::Data::SqlClient::SqlCommand^ cmd = gcnew System::Data::SqlClient::SqlCommand(query, conDatabase);
+      cmd->ExecuteNonQuery();
+      query = "UPDATE [stats] SET [wins] = [wins] + 1 FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE [users].[username] = '" + username + "'";
+      cmd = gcnew System::Data::SqlClient::SqlCommand(query, conDatabase);
+      cmd->ExecuteNonQuery();
+      delete cmd;
+      conDatabase->Close();
+      delete conDatabase;
+      Close();
+      break;
+    }
+
+    info_column = 4;
+    row++;
+    game->attempt->Clear();
+    break;
+  }
+  return System::Void();
+}
+
 
 void Mastermind::Game::InitializeComponent(void) {
   this->components = (gcnew System::ComponentModel::Container());
@@ -212,6 +313,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->tableLayoutPanel1->RowCount = 2;
   this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
   this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+  this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
   this->tableLayoutPanel1->Size = System::Drawing::Size(800, 600);
   this->tableLayoutPanel1->TabIndex = 0;
   // 
@@ -1376,6 +1478,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_purple->Size = System::Drawing::Size(30, 30);
   this->button_purple->TabIndex = 4;
   this->button_purple->UseVisualStyleBackColor = false;
+  this->button_purple->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_lime
   // 
@@ -1386,6 +1489,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_lime->Size = System::Drawing::Size(30, 30);
   this->button_lime->TabIndex = 5;
   this->button_lime->UseVisualStyleBackColor = false;
+  this->button_lime->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_cyan
   // 
@@ -1396,6 +1500,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_cyan->Size = System::Drawing::Size(30, 30);
   this->button_cyan->TabIndex = 6;
   this->button_cyan->UseVisualStyleBackColor = false;
+  this->button_cyan->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_orange
   // 
@@ -1406,6 +1511,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_orange->Size = System::Drawing::Size(30, 30);
   this->button_orange->TabIndex = 7;
   this->button_orange->UseVisualStyleBackColor = false;
+  this->button_orange->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_red
   // 
@@ -1415,7 +1521,9 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_red->Name = L"button_red";
   this->button_red->Size = System::Drawing::Size(30, 30);
   this->button_red->TabIndex = 0;
+  this->button_red->Tag = L"";
   this->button_red->UseVisualStyleBackColor = false;
+  this->button_red->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_green
   // 
@@ -1426,6 +1534,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_green->Size = System::Drawing::Size(30, 30);
   this->button_green->TabIndex = 1;
   this->button_green->UseVisualStyleBackColor = false;
+  this->button_green->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_blue
   // 
@@ -1436,6 +1545,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_blue->Size = System::Drawing::Size(30, 30);
   this->button_blue->TabIndex = 2;
   this->button_blue->UseVisualStyleBackColor = false;
+  this->button_blue->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // button_yellow
   // 
@@ -1446,6 +1556,7 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_yellow->Size = System::Drawing::Size(30, 30);
   this->button_yellow->TabIndex = 3;
   this->button_yellow->UseVisualStyleBackColor = false;
+  this->button_yellow->Click += gcnew System::EventHandler(this, &Game::ColorButton_Click);
   // 
   // timer1
   // 

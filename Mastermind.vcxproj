@@ -118,9 +118,10 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Login.cpp" />
+    <ClCompile Include="Mastermind_game.cpp" />
     <ClCompile Include="Peg.cpp" />
-    <ClCompile Include="red.cpp" />
     <ClCompile Include="Register.cpp" />
+    <ClCompile Include="Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -140,9 +141,12 @@
     <ClInclude Include="Login.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Mastermind_game.h" />
     <ClInclude Include="Peg.h" />
-    <ClInclude Include="red.h" />
     <ClInclude Include="Register.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stats.resx">
+      <DependentUpon>Stats.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,3 +1,5 @@
+#include "Peg.h"
+#include "Mastermind_game.h"
 #pragma once
 
 namespace Mastermind {
@@ -9,16 +11,19 @@ namespace Mastermind {
   using namespace System::Data;
   using namespace System::Drawing;
   using namespace System::Collections::Generic;
-
   public ref class Game : public System::Windows::Forms::Form
   {
   public:
     Game(void);
+    System::String^ username;
   protected:
     ~Game();
   private:
     int time;
-    List<String^>^ result;
+    MastermindGame^ game;
+    int row, column, info_row, info_column;
+    cli::array<Button^, 1>^ color_buttons;
+    cli::array<Button^, 2>^ buttons;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     System::Windows::Forms::Button^ button_12_1;
@@ -137,7 +142,7 @@ namespace Mastermind {
     System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e);
     System::Void Game_Load(System::Object^ sender, System::EventArgs^ e);
     System::Void button_quit_Click(System::Object^ sender, System::EventArgs^ e);
-   System::Void Game_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
-  
-};
+    System::Void Game_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
+    System::Void ColorButton_Click(System::Object^ sender, System::EventArgs^ e);
+  };
 }

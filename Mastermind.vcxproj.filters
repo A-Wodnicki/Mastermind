@@ -33,7 +33,10 @@
     <ClCompile Include="Peg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="red.cpp">
+    <ClCompile Include="Mastermind_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +59,10 @@
     <ClInclude Include="Peg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="red.h">
+    <ClInclude Include="Mastermind_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

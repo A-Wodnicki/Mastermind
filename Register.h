@@ -12,11 +12,11 @@ namespace Mastermind {
   public:
     Register();
     bool user_created;
+    System::String^ username;
   protected:
     ~Register();
   private:
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-  private:
     System::Windows::Forms::TableLayoutPanel^ register_form;
     System::Windows::Forms::Label^ username_label;
     System::Windows::Forms::Label^ password_label;

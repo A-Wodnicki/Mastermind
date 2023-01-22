@@ -12,6 +12,7 @@ namespace Mastermind {
   public:
     Login();
     bool user_verified;
+    System::String^ username;
   protected:
     ~Login();
   private:
