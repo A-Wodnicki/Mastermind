@@ -13,5 +13,5 @@ Error::~Error()
 
 void Error::Describe()
 {
-  System::Windows::Forms::MessageBox::Show(description, "B³¹d nr.: " + number, System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Error);
+  System::Windows::Forms::MessageBox::Show(description, "Error number: " + number, System::Windows::Forms::MessageBoxButtons::OK, System::Windows::Forms::MessageBoxIcon::Error);
 }
