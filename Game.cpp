@@ -39,7 +39,7 @@ System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventAr
   };
   game = gcnew MastermindGame(input_pegs, pegs);
   for each (Peg ^ peg in game->pegs) {
-    peg->setColor("Control");
+    peg->setColor("DarkGray");
   }
 }
 

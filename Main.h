@@ -27,7 +27,7 @@ namespace Mastermind {
     System::Windows::Forms::Button^ open_register_button;
   private: System::Windows::Forms::Button^ open_stats_button;
 
-    System::Windows::Forms::Button^ open_settings_button;
+
     System::Windows::Forms::Button^ quit_button;
     System::Windows::Forms::TableLayoutPanel^ main_menu_buttons;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;

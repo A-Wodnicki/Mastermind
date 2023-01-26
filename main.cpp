@@ -30,7 +30,6 @@ System::Void Mastermind::Main::InitializeComponent(void) {
   this->open_login_button = (gcnew System::Windows::Forms::Button());
   this->open_register_button = (gcnew System::Windows::Forms::Button());
   this->open_stats_button = (gcnew System::Windows::Forms::Button());
-  this->open_settings_button = (gcnew System::Windows::Forms::Button());
   this->quit_button = (gcnew System::Windows::Forms::Button());
   this->main_menu_buttons = (gcnew System::Windows::Forms::TableLayoutPanel());
   this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -86,26 +85,12 @@ System::Void Mastermind::Main::InitializeComponent(void) {
   this->open_stats_button->UseVisualStyleBackColor = true;
   this->open_stats_button->Click += gcnew System::EventHandler(this, &Main::open_stats_button_Click);
   // 
-  // open_settings_button
-  // 
-  this->open_settings_button->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
-  this->open_settings_button->AutoSize = true;
-  this->open_settings_button->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-  this->open_settings_button->Location = System::Drawing::Point(8, 212);
-  this->open_settings_button->Margin = System::Windows::Forms::Padding(8);
-  this->open_settings_button->Name = L"open_settings_button";
-  this->open_settings_button->Padding = System::Windows::Forms::Padding(20, 10, 20, 10);
-  this->open_settings_button->Size = System::Drawing::Size(181, 52);
-  this->open_settings_button->TabIndex = 4;
-  this->open_settings_button->Text = L"Settings";
-  this->open_settings_button->UseVisualStyleBackColor = true;
-  // 
   // quit_button
   // 
   this->quit_button->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
   this->quit_button->AutoSize = true;
   this->quit_button->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-  this->quit_button->Location = System::Drawing::Point(8, 280);
+  this->quit_button->Location = System::Drawing::Point(8, 212);
   this->quit_button->Margin = System::Windows::Forms::Padding(8);
   this->quit_button->Name = L"quit_button";
   this->quit_button->Padding = System::Windows::Forms::Padding(20, 10, 20, 10);
@@ -122,23 +107,22 @@ System::Void Mastermind::Main::InitializeComponent(void) {
   this->main_menu_buttons->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
   this->main_menu_buttons->ColumnCount = 1;
   this->main_menu_buttons->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
-  this->main_menu_buttons->Controls->Add(this->quit_button, 0, 4);
+  this->main_menu_buttons->Controls->Add(this->quit_button, 0, 3);
   this->main_menu_buttons->Controls->Add(this->open_register_button, 0, 1);
-  this->main_menu_buttons->Controls->Add(this->open_settings_button, 0, 3);
   this->main_menu_buttons->Controls->Add(this->open_stats_button, 0, 2);
   this->main_menu_buttons->Controls->Add(this->open_login_button, 0, 0);
   this->main_menu_buttons->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel,
     static_cast<System::Byte>(238)));
-  this->main_menu_buttons->Location = System::Drawing::Point(301, 130);
+  this->main_menu_buttons->Location = System::Drawing::Point(301, 164);
   this->main_menu_buttons->Margin = System::Windows::Forms::Padding(0);
   this->main_menu_buttons->Name = L"main_menu_buttons";
-  this->main_menu_buttons->RowCount = 5;
+  this->main_menu_buttons->RowCount = 4;
   this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
   this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
   this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
   this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-  this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-  this->main_menu_buttons->Size = System::Drawing::Size(197, 340);
+  this->main_menu_buttons->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
+  this->main_menu_buttons->Size = System::Drawing::Size(197, 272);
   this->main_menu_buttons->TabIndex = 5;
   // 
   // tableLayoutPanel2
