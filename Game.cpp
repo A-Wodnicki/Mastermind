@@ -20,7 +20,7 @@ System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventAr
   game = gcnew MastermindGame();
   row = column = 0;
   info_row = info_column = 4;
-  buttons = gcnew cli::array<Button^, 2>{
+  buttons = gcnew cli::array<Peg^, 2>{
     { button_1_1, button_1_2, button_1_3, button_1_4, button_1_5, button_1_6, button_1_7, button_1_8 },
     { button_2_1, button_2_2, button_2_3, button_2_4, button_2_5, button_2_6, button_2_7, button_2_8 },
     { button_3_1, button_3_2, button_3_3, button_3_4, button_3_5, button_3_6, button_3_7, button_3_8 },
@@ -34,13 +34,10 @@ System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventAr
     { button_11_1, button_11_2, button_11_3, button_11_4, button_11_5, button_11_6, button_11_7, button_11_8 },
     { button_12_1, button_12_2, button_12_3, button_12_4, button_12_5, button_12_6, button_12_7, button_12_8 }
   };
-  Peg^ peg;
-  for each (Button ^ button in buttons) {
-    peg = gcnew Peg(button);
-    peg->setColor("Control");
-    delete peg;
+  for each (Peg ^ button in buttons) {
+    button->setColor("Control");
   }
-  color_buttons = gcnew cli::array<Button^, 1>{
+  color_buttons = gcnew cli::array<Input_Peg^, 1>{
     button_red, button_green, button_blue, button_yellow, button_purple, button_lime, button_cyan, button_orange
   };
 }
@@ -72,17 +69,12 @@ bool operator==(System::Collections::Generic::List<System::String^>^ list1, Syst
 
 System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System::EventArgs^ e)
 {
-  Peg^ input_peg, ^ peg;
-  for each (Button ^ button in color_buttons)
+  for each (Input_Peg ^ button in color_buttons)
   {
     if (button != sender) continue;
 
-    peg = gcnew Peg(buttons[row, column++]);
-    input_peg = gcnew Peg(button);
-    peg->setColor(input_peg->getColor());
-    game->attempt += input_peg->getColor();
-    delete peg;
-    delete input_peg;
+    buttons[row,column++]->setColor(button->getColor());
+    game->attempt += button->getColor();
 
     if (column != 4) break;
 
@@ -135,15 +127,11 @@ System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System:
     game->white -= game->black;
 
     while (game->black > 0) {
-      peg = gcnew Peg(buttons[row, info_column++]);
-      peg->setColor("Black");
-      delete peg;
+      buttons[row, info_column++]->setColor("Black");
       game->black--;
     }
     while (game->white > 0) {
-      peg = gcnew Peg(buttons[row, info_column++]);
-      peg->setColor("White");
-      delete peg;
+      buttons[row, info_column++]->setColor("White");
       game->white--;
     }
 
@@ -182,112 +170,112 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_quit = (gcnew System::Windows::Forms::Button());
   this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
   this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
-  this->button_12_1 = (gcnew System::Windows::Forms::Button());
-  this->button_12_2 = (gcnew System::Windows::Forms::Button());
-  this->button_12_3 = (gcnew System::Windows::Forms::Button());
-  this->button_12_4 = (gcnew System::Windows::Forms::Button());
-  this->button_11_1 = (gcnew System::Windows::Forms::Button());
-  this->button_11_2 = (gcnew System::Windows::Forms::Button());
-  this->button_11_3 = (gcnew System::Windows::Forms::Button());
-  this->button_11_4 = (gcnew System::Windows::Forms::Button());
-  this->button_10_1 = (gcnew System::Windows::Forms::Button());
-  this->button_10_2 = (gcnew System::Windows::Forms::Button());
-  this->button_10_3 = (gcnew System::Windows::Forms::Button());
-  this->button_10_4 = (gcnew System::Windows::Forms::Button());
-  this->button_9_1 = (gcnew System::Windows::Forms::Button());
-  this->button_9_2 = (gcnew System::Windows::Forms::Button());
-  this->button_9_3 = (gcnew System::Windows::Forms::Button());
-  this->button_9_4 = (gcnew System::Windows::Forms::Button());
-  this->button_8_1 = (gcnew System::Windows::Forms::Button());
-  this->button_8_2 = (gcnew System::Windows::Forms::Button());
-  this->button_8_3 = (gcnew System::Windows::Forms::Button());
-  this->button_8_4 = (gcnew System::Windows::Forms::Button());
-  this->button_7_1 = (gcnew System::Windows::Forms::Button());
-  this->button_7_2 = (gcnew System::Windows::Forms::Button());
-  this->button_7_3 = (gcnew System::Windows::Forms::Button());
-  this->button_7_4 = (gcnew System::Windows::Forms::Button());
-  this->button_6_1 = (gcnew System::Windows::Forms::Button());
-  this->button_6_2 = (gcnew System::Windows::Forms::Button());
-  this->button_6_3 = (gcnew System::Windows::Forms::Button());
-  this->button_6_4 = (gcnew System::Windows::Forms::Button());
-  this->button_5_1 = (gcnew System::Windows::Forms::Button());
-  this->button_5_2 = (gcnew System::Windows::Forms::Button());
-  this->button_5_3 = (gcnew System::Windows::Forms::Button());
-  this->button_5_4 = (gcnew System::Windows::Forms::Button());
-  this->button_4_2 = (gcnew System::Windows::Forms::Button());
-  this->button_4_1 = (gcnew System::Windows::Forms::Button());
-  this->button_4_3 = (gcnew System::Windows::Forms::Button());
-  this->button_4_4 = (gcnew System::Windows::Forms::Button());
-  this->button_3_1 = (gcnew System::Windows::Forms::Button());
-  this->button_3_2 = (gcnew System::Windows::Forms::Button());
-  this->button_3_3 = (gcnew System::Windows::Forms::Button());
-  this->button_3_4 = (gcnew System::Windows::Forms::Button());
-  this->button_2_1 = (gcnew System::Windows::Forms::Button());
-  this->button_2_2 = (gcnew System::Windows::Forms::Button());
-  this->button_2_3 = (gcnew System::Windows::Forms::Button());
-  this->button_2_4 = (gcnew System::Windows::Forms::Button());
-  this->button_1_1 = (gcnew System::Windows::Forms::Button());
-  this->button_1_2 = (gcnew System::Windows::Forms::Button());
-  this->button_1_3 = (gcnew System::Windows::Forms::Button());
-  this->button_1_4 = (gcnew System::Windows::Forms::Button());
+  this->button_12_1 = (gcnew Peg);
+  this->button_12_2 = (gcnew Peg);
+  this->button_12_3 = (gcnew Peg);
+  this->button_12_4 = (gcnew Peg);
+  this->button_11_1 = (gcnew Peg);
+  this->button_11_2 = (gcnew Peg);
+  this->button_11_3 = (gcnew Peg);
+  this->button_11_4 = (gcnew Peg);
+  this->button_10_1 = (gcnew Peg);
+  this->button_10_2 = (gcnew Peg);
+  this->button_10_3 = (gcnew Peg);
+  this->button_10_4 = (gcnew Peg);
+  this->button_9_1 = (gcnew Peg);
+  this->button_9_2 = (gcnew Peg);
+  this->button_9_3 = (gcnew Peg);
+  this->button_9_4 = (gcnew Peg);
+  this->button_8_1 = (gcnew Peg);
+  this->button_8_2 = (gcnew Peg);
+  this->button_8_3 = (gcnew Peg);
+  this->button_8_4 = (gcnew Peg);
+  this->button_7_1 = (gcnew Peg);
+  this->button_7_2 = (gcnew Peg);
+  this->button_7_3 = (gcnew Peg);
+  this->button_7_4 = (gcnew Peg);
+  this->button_6_1 = (gcnew Peg);
+  this->button_6_2 = (gcnew Peg);
+  this->button_6_3 = (gcnew Peg);
+  this->button_6_4 = (gcnew Peg);
+  this->button_5_1 = (gcnew Peg);
+  this->button_5_2 = (gcnew Peg);
+  this->button_5_3 = (gcnew Peg);
+  this->button_5_4 = (gcnew Peg);
+  this->button_4_2 = (gcnew Peg);
+  this->button_4_1 = (gcnew Peg);
+  this->button_4_3 = (gcnew Peg);
+  this->button_4_4 = (gcnew Peg);
+  this->button_3_1 = (gcnew Peg);
+  this->button_3_2 = (gcnew Peg);
+  this->button_3_3 = (gcnew Peg);
+  this->button_3_4 = (gcnew Peg);
+  this->button_2_1 = (gcnew Peg);
+  this->button_2_2 = (gcnew Peg);
+  this->button_2_3 = (gcnew Peg);
+  this->button_2_4 = (gcnew Peg);
+  this->button_1_1 = (gcnew Peg);
+  this->button_1_2 = (gcnew Peg);
+  this->button_1_3 = (gcnew Peg);
+  this->button_1_4 = (gcnew Peg);
   this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
-  this->button_12_5 = (gcnew System::Windows::Forms::Button());
-  this->button_12_6 = (gcnew System::Windows::Forms::Button());
-  this->button_12_7 = (gcnew System::Windows::Forms::Button());
-  this->button_12_8 = (gcnew System::Windows::Forms::Button());
-  this->button_11_5 = (gcnew System::Windows::Forms::Button());
-  this->button_11_6 = (gcnew System::Windows::Forms::Button());
-  this->button_11_7 = (gcnew System::Windows::Forms::Button());
-  this->button_11_8 = (gcnew System::Windows::Forms::Button());
-  this->button_10_5 = (gcnew System::Windows::Forms::Button());
-  this->button_10_6 = (gcnew System::Windows::Forms::Button());
-  this->button_10_7 = (gcnew System::Windows::Forms::Button());
-  this->button_10_8 = (gcnew System::Windows::Forms::Button());
-  this->button_9_5 = (gcnew System::Windows::Forms::Button());
-  this->button_9_6 = (gcnew System::Windows::Forms::Button());
-  this->button_9_7 = (gcnew System::Windows::Forms::Button());
-  this->button_9_8 = (gcnew System::Windows::Forms::Button());
-  this->button_8_5 = (gcnew System::Windows::Forms::Button());
-  this->button_8_6 = (gcnew System::Windows::Forms::Button());
-  this->button_8_7 = (gcnew System::Windows::Forms::Button());
-  this->button_8_8 = (gcnew System::Windows::Forms::Button());
-  this->button_7_5 = (gcnew System::Windows::Forms::Button());
-  this->button_7_6 = (gcnew System::Windows::Forms::Button());
-  this->button_7_7 = (gcnew System::Windows::Forms::Button());
-  this->button_7_8 = (gcnew System::Windows::Forms::Button());
-  this->button_6_5 = (gcnew System::Windows::Forms::Button());
-  this->button_6_6 = (gcnew System::Windows::Forms::Button());
-  this->button_6_7 = (gcnew System::Windows::Forms::Button());
-  this->button_6_8 = (gcnew System::Windows::Forms::Button());
-  this->button_5_5 = (gcnew System::Windows::Forms::Button());
-  this->button_5_6 = (gcnew System::Windows::Forms::Button());
-  this->button_5_7 = (gcnew System::Windows::Forms::Button());
-  this->button_5_8 = (gcnew System::Windows::Forms::Button());
-  this->button_4_6 = (gcnew System::Windows::Forms::Button());
-  this->button_4_5 = (gcnew System::Windows::Forms::Button());
-  this->button_4_7 = (gcnew System::Windows::Forms::Button());
-  this->button_4_8 = (gcnew System::Windows::Forms::Button());
-  this->button_3_5 = (gcnew System::Windows::Forms::Button());
-  this->button_3_6 = (gcnew System::Windows::Forms::Button());
-  this->button_3_7 = (gcnew System::Windows::Forms::Button());
-  this->button_3_8 = (gcnew System::Windows::Forms::Button());
-  this->button_2_5 = (gcnew System::Windows::Forms::Button());
-  this->button_2_6 = (gcnew System::Windows::Forms::Button());
-  this->button_2_7 = (gcnew System::Windows::Forms::Button());
-  this->button_2_8 = (gcnew System::Windows::Forms::Button());
-  this->button_1_5 = (gcnew System::Windows::Forms::Button());
-  this->button_1_6 = (gcnew System::Windows::Forms::Button());
-  this->button_1_7 = (gcnew System::Windows::Forms::Button());
-  this->button_1_8 = (gcnew System::Windows::Forms::Button());
+  this->button_12_5 = (gcnew Peg);
+  this->button_12_6 = (gcnew Peg);
+  this->button_12_7 = (gcnew Peg);
+  this->button_12_8 = (gcnew Peg);
+  this->button_11_5 = (gcnew Peg);
+  this->button_11_6 = (gcnew Peg);
+  this->button_11_7 = (gcnew Peg);
+  this->button_11_8 = (gcnew Peg);
+  this->button_10_5 = (gcnew Peg);
+  this->button_10_6 = (gcnew Peg);
+  this->button_10_7 = (gcnew Peg);
+  this->button_10_8 = (gcnew Peg);
+  this->button_9_5 = (gcnew Peg);
+  this->button_9_6 = (gcnew Peg);
+  this->button_9_7 = (gcnew Peg);
+  this->button_9_8 = (gcnew Peg);
+  this->button_8_5 = (gcnew Peg);
+  this->button_8_6 = (gcnew Peg);
+  this->button_8_7 = (gcnew Peg);
+  this->button_8_8 = (gcnew Peg);
+  this->button_7_5 = (gcnew Peg);
+  this->button_7_6 = (gcnew Peg);
+  this->button_7_7 = (gcnew Peg);
+  this->button_7_8 = (gcnew Peg);
+  this->button_6_5 = (gcnew Peg);
+  this->button_6_6 = (gcnew Peg);
+  this->button_6_7 = (gcnew Peg);
+  this->button_6_8 = (gcnew Peg);
+  this->button_5_5 = (gcnew Peg);
+  this->button_5_6 = (gcnew Peg);
+  this->button_5_7 = (gcnew Peg);
+  this->button_5_8 = (gcnew Peg);
+  this->button_4_6 = (gcnew Peg);
+  this->button_4_5 = (gcnew Peg);
+  this->button_4_7 = (gcnew Peg);
+  this->button_4_8 = (gcnew Peg);
+  this->button_3_5 = (gcnew Peg);
+  this->button_3_6 = (gcnew Peg);
+  this->button_3_7 = (gcnew Peg);
+  this->button_3_8 = (gcnew Peg);
+  this->button_2_5 = (gcnew Peg);
+  this->button_2_6 = (gcnew Peg);
+  this->button_2_7 = (gcnew Peg);
+  this->button_2_8 = (gcnew Peg);
+  this->button_1_5 = (gcnew Peg);
+  this->button_1_6 = (gcnew Peg);
+  this->button_1_7 = (gcnew Peg);
+  this->button_1_8 = (gcnew Peg);
   this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
-  this->button_purple = (gcnew System::Windows::Forms::Button());
-  this->button_lime = (gcnew System::Windows::Forms::Button());
-  this->button_cyan = (gcnew System::Windows::Forms::Button());
-  this->button_orange = (gcnew System::Windows::Forms::Button());
-  this->button_red = (gcnew System::Windows::Forms::Button());
-  this->button_green = (gcnew System::Windows::Forms::Button());
-  this->button_blue = (gcnew System::Windows::Forms::Button());
-  this->button_yellow = (gcnew System::Windows::Forms::Button());
+  this->button_purple = (gcnew Input_Peg);
+  this->button_lime = (gcnew Input_Peg);
+  this->button_cyan = (gcnew Input_Peg);
+  this->button_orange = (gcnew Input_Peg);
+  this->button_red = (gcnew Input_Peg);
+  this->button_green = (gcnew Input_Peg);
+  this->button_blue = (gcnew Input_Peg);
+  this->button_yellow = (gcnew Input_Peg);
   this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
   this->tableLayoutPanel1->SuspendLayout();
   this->tableLayoutPanel5->SuspendLayout();

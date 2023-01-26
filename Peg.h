@@ -1,13 +1,12 @@
 #pragma once
-ref class Peg
+ref class Peg : public System::Windows::Forms::Button
 {
 public:
-  Peg(System::Windows::Forms::Button^);
+  Peg();
   void setColor(System::String^);
   System::String^ getColor();
 protected:
   virtual ~Peg();
-  System::Windows::Forms::Button^ button;
   System::String^ color;
 private:
 

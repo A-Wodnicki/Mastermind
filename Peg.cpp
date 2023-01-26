@@ -1,19 +1,17 @@
 #include "Peg.h"
 
-Peg::Peg(System::Windows::Forms::Button^ button)
-{
-  this->button = button;
+Peg::Peg(){
 }
 
 void Peg::setColor(System::String^ color)
 {
   this->color = color;
-  this->button->BackColor = System::Drawing::Color::FromName(this->color);
+  BackColor = System::Drawing::Color::FromName(this->color);
 }
 
 System::String^ Peg::getColor()
 {
-  return button->BackColor.ToKnownColor().ToString();
+  return BackColor.ToKnownColor().ToString();
 }
 
 Peg::~Peg()
