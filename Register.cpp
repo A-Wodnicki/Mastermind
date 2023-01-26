@@ -190,7 +190,10 @@ System::Void Mastermind::Register::register_button_Click(System::Object^ sender,
   user_created = false;
   try {
     if (password_input->Text != confirm_password_input->Text) {
-      throw gcnew Error(4, "Has³a nie s¹ takie same");
+      throw gcnew Error(4, "Passwords are not the same");
+    }
+    if (!(System::Text::RegularExpressions::Regex::IsMatch(password_input->Text, R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$)"))) {
+      throw gcnew Error(5, "Password should contain at least one lowercase letter, one uppercase letter, one number, one special character and be at least 8 characters long!");
     }
   }
   catch (Error^ e) {
@@ -202,7 +205,7 @@ System::Void Mastermind::Register::register_button_Click(System::Object^ sender,
     conDatabase->Open();
   }
   catch (SqlClient::SqlException^) {
-    (gcnew Error(1, "Nie mo¿na uzyskaæ po³¹czenia z baz¹ danych"))->Describe();
+    (gcnew Error(1, "Unable to get connection to database"))->Describe();
     return;
   }
   String^ query = "INSERT INTO users VALUES('" + this->username + "', HASHBYTES('SHA2_512', '" + this->password_input->Text + "'))";
@@ -211,7 +214,7 @@ System::Void Mastermind::Register::register_button_Click(System::Object^ sender,
     cmd->ExecuteNonQuery();
   }
   catch (SqlClient::SqlException^) {
-    (gcnew Error(3, "U¿ytkownik o podanej nazwie ju¿ istnieje"))->Describe();
+    (gcnew Error(3, "A user with the given name already exists"))->Describe();
     return;
   }
   query = "INSERT INTO [stats] VALUES((SELECT id from users WHERE username='" + this->username + "'), 0, 0, NULL)";

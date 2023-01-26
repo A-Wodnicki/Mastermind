@@ -1,5 +1,4 @@
 #include "Peg.h"
-#include "Input_Peg.h"
 #include "Mastermind_game.h"
 #pragma once
 
@@ -23,8 +22,8 @@ namespace Mastermind {
     int time;
     MastermindGame^ game;
     int row, column, info_row, info_column;
-    cli::array<Input_Peg^, 1>^ color_buttons;
-    cli::array<Peg^, 2>^ buttons;
+    cli::array<Peg^, 1>^ input_pegs;
+    cli::array<Peg^, 2>^ pegs;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     Peg^ button_12_1;
@@ -61,10 +60,10 @@ namespace Mastermind {
     Peg^ button_5_4;
     Peg^ button_4_2;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
-    Input_Peg^ button_red;
-    Input_Peg^ button_green;
-    Input_Peg^ button_blue;
-    Input_Peg^ button_yellow;
+    Peg^ button_red;
+    Peg^ button_green;
+    Peg^ button_blue;
+    Peg^ button_yellow;
     Peg^ button_4_1;
     Peg^ button_4_3;
     Peg^ button_4_4;
@@ -129,10 +128,10 @@ namespace Mastermind {
     Peg^ button_1_6;
     Peg^ button_1_7;
     Peg^ button_1_8;
-    Input_Peg^ button_purple;
-    Input_Peg^ button_lime;
-    Input_Peg^ button_cyan;
-    Input_Peg^ button_orange;
+    Peg^ button_purple;
+    Peg^ button_lime;
+    Peg^ button_cyan;
+    Peg^ button_orange;
     System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     System::Windows::Forms::Label^ label1;
     System::Windows::Forms::Timer^ timer1;

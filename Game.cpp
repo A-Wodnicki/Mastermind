@@ -17,10 +17,9 @@ System::Void Mastermind::Game::timer1_Tick(System::Object^ sender, System::Event
 System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventArgs^ e) {
   this->time = 0;
   this->timer1->Start();
-  game = gcnew MastermindGame();
   row = column = 0;
   info_row = info_column = 4;
-  buttons = gcnew cli::array<Peg^, 2>{
+  pegs = gcnew cli::array<Peg^, 2>{
     { button_1_1, button_1_2, button_1_3, button_1_4, button_1_5, button_1_6, button_1_7, button_1_8 },
     { button_2_1, button_2_2, button_2_3, button_2_4, button_2_5, button_2_6, button_2_7, button_2_8 },
     { button_3_1, button_3_2, button_3_3, button_3_4, button_3_5, button_3_6, button_3_7, button_3_8 },
@@ -34,12 +33,14 @@ System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventAr
     { button_11_1, button_11_2, button_11_3, button_11_4, button_11_5, button_11_6, button_11_7, button_11_8 },
     { button_12_1, button_12_2, button_12_3, button_12_4, button_12_5, button_12_6, button_12_7, button_12_8 }
   };
-  for each (Peg ^ button in buttons) {
-    button->setColor("Control");
-  }
-  color_buttons = gcnew cli::array<Input_Peg^, 1>{
+
+  input_pegs = gcnew cli::array<Peg^, 1>{
     button_red, button_green, button_blue, button_yellow, button_purple, button_lime, button_cyan, button_orange
   };
+  game = gcnew MastermindGame(input_pegs, pegs);
+  for each (Peg ^ peg in game->pegs) {
+    peg->setColor("Control");
+  }
 }
 
 System::Void Mastermind::Game::button_quit_Click(System::Object^ sender, System::EventArgs^ e)
@@ -69,18 +70,18 @@ bool operator==(System::Collections::Generic::List<System::String^>^ list1, Syst
 
 System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System::EventArgs^ e)
 {
-  for each (Input_Peg ^ button in color_buttons)
+  for each (Peg ^ input_peg in game->input_pegs)
   {
-    if (button != sender) continue;
+    if (input_peg != sender) continue;
 
-    buttons[row,column++]->setColor(button->getColor());
-    game->attempt += button->getColor();
+    game->pegs[row, column++]->setColor(input_peg->getColor());
+    game->attempt += input_peg->getColor();
 
     if (column != 4) break;
 
     if (row == 11) {
       timer1->Stop();
-      MessageBox::Show("Pora¿ka", "Pora¿ka", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+      MessageBox::Show("Failure", "Failure", MessageBoxButtons::OK, MessageBoxIcon::Warning);
       System::Data::SqlClient::SqlConnection^ conDatabase = gcnew System::Data::SqlClient::SqlConnection("Data Source=localhost\\SQLEXPRESS;Initial Catalog=mastermind;Integrated Security=SSPI");
       conDatabase->Open();
       String^ query = "UPDATE [stats] SET [failures] = [failures] + 1 FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE [users].[username] = '" + username + "'";
@@ -96,7 +97,7 @@ System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System:
     column = 0;
     for (int i = 0; i < game->attempt->Count; i++) {
       if (game->attempt[i] == game->result[i]) {
-        game->black++;
+        game->black_count++;
       }
     }
 
@@ -116,7 +117,7 @@ System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System:
         if (element == game->attempt[j])
           attempt_element_count++;
       }
-      game->white +=
+      game->white_count +=
         (result_element_count > attempt_element_count) ?
         result_element_count - (result_element_count - attempt_element_count) :
         result_element_count;
@@ -124,20 +125,20 @@ System::Void Mastermind::Game::ColorButton_Click(System::Object^ sender, System:
       attempt_element_count = 0;
     }
     delete attempt_set;
-    game->white -= game->black;
+    game->white_count -= game->black_count;
 
-    while (game->black > 0) {
-      buttons[row, info_column++]->setColor("Black");
-      game->black--;
+    while (game->black_count > 0) {
+      game->pegs[row, info_column++]->setColor("Black");
+      game->black_count--;
     }
-    while (game->white > 0) {
-      buttons[row, info_column++]->setColor("White");
-      game->white--;
+    while (game->white_count > 0) {
+      game->pegs[row, info_column++]->setColor("White");
+      game->white_count--;
     }
 
     if (game->attempt == game->result) {
       timer1->Stop();
-      MessageBox::Show("Wygra³eœ " + this->username + "!\nPróba numer : " + (row + 1) + "\nTwój czas to : " + label1->Text, "Zwyciêstwo", MessageBoxButtons::OK, MessageBoxIcon::Information);
+      MessageBox::Show("You win " + this->username + "!\nAttempt number: " + (row + 1) + "\nYour time: " + label1->Text, "Win", MessageBoxButtons::OK, MessageBoxIcon::Information);
       System::Data::SqlClient::SqlConnection^ conDatabase = gcnew System::Data::SqlClient::SqlConnection("Data Source=localhost\\SQLEXPRESS;Initial Catalog=mastermind;Integrated Security=SSPI");
       conDatabase->Open();
       String^ query = "UPDATE [stats] SET [best time] = DATEADD(SECOND," + time + ", 0) FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE ([best time] IS NULL OR [best time] > CONVERT(TIME(0), DATEADD(ss, " + time + ", 0))) AND [users].[username] = '" + username + "'";
@@ -268,14 +269,14 @@ void Mastermind::Game::InitializeComponent(void) {
   this->button_1_7 = (gcnew Peg);
   this->button_1_8 = (gcnew Peg);
   this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
-  this->button_purple = (gcnew Input_Peg);
-  this->button_lime = (gcnew Input_Peg);
-  this->button_cyan = (gcnew Input_Peg);
-  this->button_orange = (gcnew Input_Peg);
-  this->button_red = (gcnew Input_Peg);
-  this->button_green = (gcnew Input_Peg);
-  this->button_blue = (gcnew Input_Peg);
-  this->button_yellow = (gcnew Input_Peg);
+  this->button_purple = (gcnew Peg);
+  this->button_lime = (gcnew Peg);
+  this->button_cyan = (gcnew Peg);
+  this->button_orange = (gcnew Peg);
+  this->button_red = (gcnew Peg);
+  this->button_green = (gcnew Peg);
+  this->button_blue = (gcnew Peg);
+  this->button_yellow = (gcnew Peg);
   this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
   this->tableLayoutPanel1->SuspendLayout();
   this->tableLayoutPanel5->SuspendLayout();

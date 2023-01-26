@@ -1,10 +1,13 @@
 #include "Mastermind_game.h"
 
-MastermindGame::MastermindGame()
+MastermindGame::MastermindGame(cli::array<Peg^, 1>^ input_pegs, cli::array<Peg^, 2>^ pegs)
 {
+  this->input_pegs = input_pegs;
+  this->pegs = pegs;
+
   result = gcnew System::Collections::Generic::List<System::String^>{};
   attempt = gcnew System::Collections::Generic::List<System::String^>{};
-  black = white = 0;
+  black_count = white_count = 0;
   System::Random^ randomizer = gcnew System::Random();
   System::String^ color;
   for (int i = 0; i < 4; i++) {
@@ -42,4 +45,3 @@ MastermindGame::MastermindGame()
   delete randomizer;
   delete color;
 }
-

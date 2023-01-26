@@ -1,6 +1,7 @@
 #include "Peg.h"
 
 Peg::Peg(){
+  this->color = this->getColor();
 }
 
 void Peg::setColor(System::String^ color)

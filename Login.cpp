@@ -177,12 +177,12 @@ System::Void Mastermind::Login::login_button_Click(System::Object^ sender, Syste
     sda->Fill(dataSet1);
   }
   catch (System::Data::SqlClient::SqlException^) {
-    (gcnew Error(1, "Nie mo¿na uzyskaæ po³¹czenia z baz¹ danych"))->Describe();
+    (gcnew Error(1, "Unable to get connection to database"))->Describe();
     return;
   }
   try {
     if (!dataSet1->Tables[0]->Rows->Count) {
-      throw gcnew Error(2, "Nie znaleziono u¿ytkownika o podanej nazwie i haœle");
+      throw gcnew Error(2, "The user with the given name and password was not found");
     }
   }
   catch (Error^ err) {
