@@ -45,7 +45,17 @@ System::Void Mastermind::Game::Game_Load(System::Object^ sender, System::EventAr
 
 System::Void Mastermind::Game::button_quit_Click(System::Object^ sender, System::EventArgs^ e)
 {
-  Close();
+  if (MessageBox::Show("Quitting now will result in failure", "Quit?", MessageBoxButtons::OKCancel, MessageBoxIcon::Warning) == System::Windows::Forms::DialogResult::OK) {
+    System::Data::SqlClient::SqlConnection^ conDatabase = gcnew System::Data::SqlClient::SqlConnection("Data Source=localhost\\SQLEXPRESS;Initial Catalog=mastermind;Integrated Security=SSPI");
+    conDatabase->Open();
+    String^ query = "UPDATE [stats] SET [failures] = [failures] + 1 FROM [stats] JOIN [users] ON [users].[id] = [stats].[user_id] WHERE [users].[username] = '" + username + "'";
+    System::Data::SqlClient::SqlCommand^ cmd = gcnew System::Data::SqlClient::SqlCommand(query, conDatabase);
+    cmd->ExecuteNonQuery();
+    delete cmd;
+    conDatabase->Close();
+    delete conDatabase;
+    Close();
+  }
 }
 
 System::Void Mastermind::Game::Game_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
